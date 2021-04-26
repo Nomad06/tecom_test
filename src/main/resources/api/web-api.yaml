@@ -1,0 +1,457 @@
+openapi: 3.0.1
+
+info:
+  title: Test API
+  description: |
+    This API provides access to objects and features of Test
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check health
+      description: Verifies that the service runs as usual.
+        You can rely on the information from this endpoint for troubleshooting.
+      security: [ ]
+      operationId: checkHealth
+      responses:
+        "204":
+          description: Returns an empty response.
+          content: { }
+  /cars:
+    post:
+      tags:
+        - Cars
+      summary: Create a car
+      description: Adds a new car. Provide information about the new car.
+      operationId: createCar
+      requestBody:
+        description: In the request body, pass the CarRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarRequest"
+      responses:
+        201:
+          description: Returns the newly created car.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        default:
+          description: Bad request or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+    get:
+      summary: List of cars
+      description: Retrieves a list of cars. Supports filtering, paging and sorting.
+      operationId: getCars
+      tags:
+        - Cars
+      parameters:
+        - name: models
+          in: query
+          description: Filtering by models
+          schema:
+            type: array
+            items:
+              type: string
+        - name: makes
+          in: query
+          description: Filtering by makes
+          schema:
+            type: array
+            items:
+              type: string
+        - name: capacityStart
+          in: query
+          description: Filtering by engine capacity
+          schema:
+            type: integer
+            default: 0
+        - name: capacityEnd
+          in: query
+          description: Filtering by engine capacity
+          schema:
+            type: integer
+            default: 1000000
+        - name: volumeStart
+          in: query
+          description: Filtering by engine volume
+          schema:
+            type: integer
+            default: 0
+        - name: volumeEnd
+          in: query
+          description: Filtering by engine volume
+          schema:
+            type: integer
+            default: 1000000
+        - name: turbocharger
+          in: query
+          description: Filtering by turbocharger
+          schema:
+            type: boolean
+            default: false
+        - name: transmissions
+          in: query
+          description: Filtering by transmission types
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Transmission"
+        - name: drives
+          in: query
+          description: Filtering by drive types
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Drive"
+        - name: bodies
+          in: query
+          description: Filtering by body types
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/Body"
+        - name: colors
+          in: query
+          description: Filtering by colors
+          schema:
+            type: array
+            items:
+              type: string
+        - name: issue_year_start
+          in: query
+          description: Filtering by issue year
+          schema:
+            type: integer
+            default: 1980
+            minimum: 1980
+            maximum: 2019
+        - name: issue_year_end
+          in: query
+          description: Filtering by issue year
+          schema:
+            type: integer
+            minimum: 1980
+            default: 2019
+            maximum: 2019
+        - name: issue_month_start
+          in: query
+          description: Filtering by issue month
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+            maximum: 12
+        - name: issue_month_end
+          in: query
+          description: Filtering by issue month
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 12
+            default: 12
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySorts"
+      responses:
+        200:
+          description: Returns an array of car records.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cars"
+        default:
+          description: Bad request or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /cars/{id}:
+    get:
+      summary: Retrieve car's details
+      description: Searches for a specific car and retrieves detailed information.
+      operationId: getCar
+      tags:
+        - Cars
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the car record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        default:
+          description: Bad request or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+    put:
+      summary: Update a car
+      description: Updates a specific car. Note that all car properties (fields) will be overwritten.
+      operationId: updateCar
+      tags:
+        - Cars
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the CarRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarRequest"
+      responses:
+        200:
+          description: Returns the updated car record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Car"
+        default:
+          description: Bad request or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+    delete:
+      tags:
+        - Cars
+      summary: Delete a car
+      description: Removes a car.
+      operationId: deleteCar
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: The car has been successfully deleted.
+        default:
+          description: Bad request or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+components:
+  responses:
+    DefaultResponse:
+      description: Bad request or internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResponseError"
+
+  parameters:
+    ResourceId:
+      name: id
+      description: A unique ID of the object.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from page 3.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: This parameter affects paging. It defines the number of records per page, e.g., 20 records per page.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+
+    QuerySorts:
+      name: sortStrings
+      in: query
+      description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+      schema:
+        type: array
+        items:
+          type: string
+          pattern: ([+-}){1}\w+
+
+
+    QuerySort:
+      name: sort
+      in: query
+      description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+      schema:
+        type: string
+        pattern: ([+-}){1}\w+
+
+  schemas:
+    ResponseError:
+      type: object
+      description: The error that is returned as a response to a request.
+      discriminator:
+        propertyName: schema
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: The HTTP status code.
+        code:
+          type: string
+          format: uuid
+          description: The optional code of the exception.
+        message:
+          type: string
+          description: The error message text.
+        errors:
+          type: object
+          description: Mapping of fields and errors.
+    Id:
+      type: string
+      format: uuid
+      description: A unique identifier of a record or resource.
+      example: $OBJECT-UUID
+
+    CarRequest:
+      type: object
+      description: This object contains car information.
+      properties:
+        make:
+          type: string
+          description: Car's make
+        model:
+          type: string
+          description: Car's model.
+        issue_year:
+          type: integer
+          description: Car's issue year.
+        issue_month:
+          type: integer
+          description: Car's issue month.
+        volume:
+          type: integer
+          description: Engine's volume.
+        capacity:
+          type: integer
+          description: Engine's capacity.
+        turbocharger:
+          type: boolean
+          description: Does a car has turbocharger?
+        transmission:
+          $ref: "#/components/schemas/Transmission"
+        drive:
+          $ref: "#/components/schemas/Drive"
+        body:
+          $ref: "#/components/schemas/Body"
+        color:
+          type: string
+          description: Color.
+
+    Car:
+      type: object
+      description: This object is submitted to VisaLex API and contains login information.
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        make:
+          type: string
+          description: Car's make
+        model:
+          type: string
+          description: Car's model.
+        issue_year:
+          type: integer
+          description: Car's issue year.
+        issue_month:
+          type: integer
+          description: Car's issue month.
+        volume:
+          type: integer
+          description: Engine's volume.
+        capacity:
+          type: integer
+          description: Engine's capacity.
+        turbocharger:
+          type: boolean
+          description: Does a car has turbocharger?
+        transmission:
+          $ref: "#/components/schemas/Transmission"
+        drive:
+          $ref: "#/components/schemas/Drive"
+        body:
+          $ref: "#/components/schemas/Body"
+        color:
+          type: string
+          description: Color.
+
+    Cars:
+      type: object
+      description: The list of car records with paging and sorting.
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Car"
+        total:
+          type: integer
+          format: int64
+
+    PageAndSort:
+      type: object
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
+
+    Transmission:
+      type: string
+      description: Transmission type.
+      default: AUTO
+      enum:
+        - AUTO
+        - VARIATOR
+        - MECHANIC
+
+    Drive:
+      type: string
+      description: Drive type.
+      default: FRONT
+      enum:
+        - FRONT
+        - REAR
+        - FULL
+
+    Body:
+      type: string
+      description: Body type.
+      default: SEDAN
+      enum:
+        - WAGON
+        - SUV
+        - SEDAN
+        - COUPE
