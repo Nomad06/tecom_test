@@ -222,7 +222,8 @@ class CarControllerTest extends AbstractBaseIT {
     @CsvSource({
             "models, model_01, 1",
             "transmissions, AUTO, 3",
-            "bodies, FULL, 1",})
+            "drives, FULL, 2",
+            "bodies, SEDAN, 5",})
     void getCarsByFilter(String paramName, String paramValue, int recordsCount) throws Exception {
         var mvcResult = mockMvc.perform(get("/cars")
                 .param(paramName, paramValue)

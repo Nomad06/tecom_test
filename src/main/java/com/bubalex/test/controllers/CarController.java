@@ -88,7 +88,9 @@ public class CarController implements CarsApi {
         Optional.ofNullable(transmissions).ifPresent(transmissionsList -> specificationList.add(new ValueInSpecification<>(CarEntity_.TRANSMISSION, transmissionsList)));
         Optional.ofNullable(drives).ifPresent(drivesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.DRIVE, drivesList)));
         Optional.ofNullable(bodies).ifPresent(bodiesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.BODY, bodiesList)));
-        Optional.ofNullable(turbocharger).ifPresent(isTurbo -> specificationList.add(new BooleanSpecification<>(CarEntity_.TURBOCHARGER)));
+        if (Boolean.TRUE.equals(turbocharger)) {
+            specificationList.add(new BooleanSpecification<>(CarEntity_.TURBOCHARGER));
+        }
         specificationList.add(new BetweenSpecification<>(CarEntity_.CAPACITY, Pair.of(capacityStart, capacityEnd)));
         specificationList.add(new BetweenSpecification<>(CarEntity_.VOLUME, Pair.of(volumeStart, volumeEnd)));
         specificationList.add(new BetweenSpecification<>(CarEntity_.ISSUE_YEAR, Pair.of(issueYearStart, issueYearEnd)));
