@@ -68,7 +68,7 @@ class CarControllerTest extends AbstractBaseIT {
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().is4xxClientError());
         assertTrue(true);
     }
 

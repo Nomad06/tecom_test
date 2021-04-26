@@ -32,6 +32,7 @@ paths:
       operationId: createCar
       requestBody:
         description: In the request body, pass the CarRequest object.
+        required: true
         content:
           application/json:
             schema:
@@ -414,19 +415,6 @@ components:
         total:
           type: integer
           format: int64
-
-    PageAndSort:
-      type: object
-      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
-      example:
-        pageNumber: 1
-        pageSize: 20
-        totalNumberOfRecords: 1
-        totalNumberOfPages: 1
-        hasNextPage: false
-        hasPreviousPage: false
-        sortingCriteria: null
-        hasMore: false
 
     Transmission:
       type: string
