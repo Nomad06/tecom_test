@@ -168,10 +168,10 @@ class CarControllerTest extends AbstractBaseIT {
 
     @ParameterizedTest
     @CsvSource({
-            "+issue_year, +model, model_05",
-            "-issue_year, -model, model_03",
-            "+issue_year, -model, model_05",
-            "-issue_year, +model, model_03",})
+            "+issueYear, +model, model_02",
+            "-issueYear, -model, model_01",
+            "+issueYear, -model, model_02",
+            "-issueYear, +model, model_01",})
     void getCarsWithAscOrderByTwoColumns(String firstSortColumn, String secondSortColumn, String resultFirstModel) throws Exception {
         var mvcResult = mockMvc.perform(get("/cars")
                 .param(PAGE_NUMBER, "1")
@@ -220,7 +220,7 @@ class CarControllerTest extends AbstractBaseIT {
 
     @ParameterizedTest
     @CsvSource({
-            "model, model_01, 1",
+            "models, model_01, 1",
             "transmissions, AUTO, 3",
             "bodies, FULL, 1",})
     void getCarsByFilter(String paramName, String paramValue, int recordsCount) throws Exception {

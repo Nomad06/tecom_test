@@ -17,11 +17,14 @@ public class PageUtils {
     public static final char DESC_SYMBOL = '-';
     public static final char ASC_SYMBOL = '+';
     public static final long DEFAULT_PAGE_SIZE = 25L;
+    public static final long DEFAULT_PAGE_NUMBER = 1L;
 
-    public static Pageable getPageable(Long pageNumber, Long pageSize, List<String> sortValues) {
+    public static Pageable getPageable(Long pageNumber, Long pageSize, List<String> sortColumns) {
         pageSize = Optional.ofNullable(pageSize)
                 .orElse(DEFAULT_PAGE_SIZE);
-        if (sortValues == null) {
+        pageNumber = Optional.ofNullable(pageNumber)
+                .orElse(DEFAULT_PAGE_NUMBER);
+        if (sortColumns == null) {
             return PageRequest.of(
                     pageNumber.intValue() - 1,
                     pageSize.intValue(),
@@ -29,16 +32,16 @@ public class PageUtils {
                     CarEntity_.MODEL
             );
         }
-        List<Sort.Order> orders = sortValues.stream()
+        List<Sort.Order> orders = sortColumns.stream()
                 .map(sortValue -> {
                     char ordBySymbol = sortValue.charAt(0);
                     if (ordBySymbol == DESC_SYMBOL) {
-                        return Sort.Order.asc(sortValue.replace(String.valueOf(DESC_SYMBOL), "").trim());
+                        return Sort.Order.desc(sortValue.replace(String.valueOf(DESC_SYMBOL), "").trim());
                     }
                     if (ordBySymbol == ASC_SYMBOL) {
-                        return Sort.Order.desc(sortValue.replace(String.valueOf(ASC_SYMBOL), "").trim());
+                        return Sort.Order.asc(sortValue.replace(String.valueOf(ASC_SYMBOL), "").trim());
                     }
-                    return Sort.Order.desc(sortValue.trim());
+                    return Sort.Order.asc(sortValue.trim());
                 })
                 .collect(Collectors.toList());
         Sort sort = Sort.by(orders);

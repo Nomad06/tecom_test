@@ -11,6 +11,6 @@ public class TestData {
 
     public static final String PAGE_SIZE = "pageSize";
     public static final String PAGE_NUMBER = "pageNumber";
-    public static final String SORT = "sort";
+    public static final String SORT = "sortColumns";
 
 }

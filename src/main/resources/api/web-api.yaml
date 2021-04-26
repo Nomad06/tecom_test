@@ -285,7 +285,7 @@ components:
         minimum: 1
 
     QuerySorts:
-      name: sortStrings
+      name: sortColumns
       in: query
       description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
       schema:

@@ -80,15 +80,15 @@ public class CarController implements CarsApi {
                                                 Integer issueYearEnd,
                                                 Integer issueMonthStart,
                                                 Integer issueMonthEnd,
-                                                Long pageNumber, Long pageSize, List<String> sortValues) {
+                                                Long pageNumber, Long pageSize, List<String> sortColumns) {
         List<Specification<CarEntity>> specificationList = new ArrayList<>();
         Optional.ofNullable(models).ifPresent(modelsList -> specificationList.add(new ValueInSpecification<>(CarEntity_.MODEL, modelsList)));
-        Optional.ofNullable(models).ifPresent(makesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.MAKE, makesList)));
-        Optional.ofNullable(models).ifPresent(colorsList -> specificationList.add(new ValueInSpecification<>(CarEntity_.COLOR, colorsList)));
-        Optional.ofNullable(models).ifPresent(transmissionsList -> specificationList.add(new ValueInSpecification<>(CarEntity_.TRANSMISSION, transmissionsList)));
-        Optional.ofNullable(models).ifPresent(drivesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.DRIVE, drivesList)));
-        Optional.ofNullable(models).ifPresent(bodiesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.BODY, bodiesList)));
-        Optional.ofNullable(models).ifPresent(isTurbo -> specificationList.add(new BooleanSpecification<>(CarEntity_.TURBOCHARGER)));
+        Optional.ofNullable(makes).ifPresent(makesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.MAKE, makesList)));
+        Optional.ofNullable(colors).ifPresent(colorsList -> specificationList.add(new ValueInSpecification<>(CarEntity_.COLOR, colorsList)));
+        Optional.ofNullable(transmissions).ifPresent(transmissionsList -> specificationList.add(new ValueInSpecification<>(CarEntity_.TRANSMISSION, transmissionsList)));
+        Optional.ofNullable(drives).ifPresent(drivesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.DRIVE, drivesList)));
+        Optional.ofNullable(bodies).ifPresent(bodiesList -> specificationList.add(new ValueInSpecification<>(CarEntity_.BODY, bodiesList)));
+        Optional.ofNullable(turbocharger).ifPresent(isTurbo -> specificationList.add(new BooleanSpecification<>(CarEntity_.TURBOCHARGER)));
         specificationList.add(new BetweenSpecification<>(CarEntity_.CAPACITY, Pair.of(capacityStart, capacityEnd)));
         specificationList.add(new BetweenSpecification<>(CarEntity_.VOLUME, Pair.of(volumeStart, volumeEnd)));
         specificationList.add(new BetweenSpecification<>(CarEntity_.ISSUE_YEAR, Pair.of(issueYearStart, issueYearEnd)));
@@ -97,7 +97,7 @@ public class CarController implements CarsApi {
         return specificationList.stream()
                 .reduce(Specification::and)
                 .map(carEntitySpecification -> {
-                    Pageable pageable = getPageable(pageNumber, pageSize, sortValues);
+                    Pageable pageable = getPageable(pageNumber, pageSize, sortColumns);
                     return carService.getCars(carEntitySpecification, pageable);
                 })
                 .map(ResponseEntity::ok)

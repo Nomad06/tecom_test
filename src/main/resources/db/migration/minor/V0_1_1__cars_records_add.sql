@@ -3,7 +3,7 @@ INSERT INTO test.car
 VALUES('ca03a5f6-043c-4aa2-8519-d2cb8438fcaa'::uuid, 'make_01', 'model_01', 2009, 2, 100, 200, true, 'AUTO', 'FRONT', 'SEDAN', 'green', false , '2021-04-25 00:36:23.012', '2021-04-25 00:36:56.048');
 INSERT INTO test.car
 (id, make, model, issue_year, issue_month, volume, capacity, turbocharger, transmission, drive, body, color, deleted, created_at, updated_at)
-VALUES('1ed43f75-a4d3-4dd7-ad5a-c4a0869e16c2'::uuid, 'make_02', 'model_02', 1981, 2, 555, 111, false, 'AUTO', 'FRONT', 'SEDAN', 'white', false, '2021-04-26 02:29:20.505', '2021-04-26 02:29:20.505');
+VALUES('1ed43f75-a4d3-4dd7-ad5a-c4a0869e16c2'::uuid, 'make_02', 'model_02', 1982, 2, 555, 111, false, 'AUTO', 'FRONT', 'SEDAN', 'white', false, '2021-04-26 02:29:20.505', '2021-04-26 02:29:20.505');
 INSERT INTO test.car
 (id, make, model, issue_year, issue_month, volume, capacity, turbocharger, transmission, drive, body, color, deleted, created_at, updated_at)
 VALUES('8fa93a7d-9e47-473c-b95c-4360a571f54c'::uuid, 'make_03', 'model_03', 1989, 3, 5525, 1121, true, 'MECHANIC', 'FRONT', 'SEDAN', 'black', false, '2021-04-26 02:29:41.398', '2021-04-26 02:29:41.398');
