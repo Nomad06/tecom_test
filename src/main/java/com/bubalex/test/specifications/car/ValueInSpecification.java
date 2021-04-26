@@ -1,8 +1,5 @@
 package com.bubalex.test.specifications.car;
 
-
-import com.bubalex.test.entities.CarEntity;
-import com.bubalex.test.entities.CarEntity_;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

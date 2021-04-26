@@ -64,6 +64,7 @@ public class CarServiceImpl implements CarService {
         persistentEntity.setModel(car.getModel());
         persistentEntity.setColor(car.getColor());
         persistentEntity.setCapacity(car.getCapacity());
+        persistentEntity.setVolume(car.getVolume());
         persistentEntity.setDrive(car.getDrive());
         persistentEntity.setIssueMonth(car.getIssueMonth());
         persistentEntity.setIssueYear(car.getIssueYear());
