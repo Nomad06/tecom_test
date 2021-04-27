@@ -48,20 +48,6 @@ class CarControllerTest extends AbstractBaseIT {
     }
 
     @Test
-    void createCarWithNullTransmission() throws Exception {
-        ApiModelCarRequest carRequest = getMockedCar();
-        carRequest.setTransmission(null);
-        mockMvc.perform(post("/cars")
-                .content(objectMapper.writeValueAsString(carRequest))
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().is4xxClientError());
-        assertTrue(true);
-    }
-
-
-    @Test
     void createCarWithNullRequest() throws Exception {
         mockMvc.perform(post("/cars")
                 .content(objectMapper.writeValueAsString(null))

@@ -23,6 +23,7 @@
 		<testcontainers.version>1.15.2</testcontainers.version>
 		<testcontainers.postgres.version>1.15.2</testcontainers.postgres.version>
 		<testcontainers.junit-jupiter.version>1.15.2</testcontainers.junit-jupiter.version>
+		<maven.failsafe.version>3.0.0-M5</maven.failsafe.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -94,6 +95,11 @@
 			<artifactId>junit-jupiter</artifactId>
 			<version>${testcontainers.junit-jupiter.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-failsafe-plugin</artifactId>
+			<version>${maven.failsafe.version}</version>
 		</dependency>
 	</dependencies>
 

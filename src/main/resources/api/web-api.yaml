@@ -420,6 +420,7 @@ components:
       type: string
       description: Transmission type.
       default: AUTO
+      nullable: false
       enum:
         - AUTO
         - VARIATOR
@@ -429,6 +430,7 @@ components:
       type: string
       description: Drive type.
       default: FRONT
+      nullable: false
       enum:
         - FRONT
         - REAR
@@ -438,6 +440,7 @@ components:
       type: string
       description: Body type.
       default: SEDAN
+      nullable: false
       enum:
         - WAGON
         - SUV

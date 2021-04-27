@@ -1,6 +1,7 @@
 package com.bubalex.test.services.impl;
 
 import com.bubalex.test.entities.CarEntity;
+import com.bubalex.test.exception.NotFoundException;
 import com.bubalex.test.mappers.CarMapper;
 import com.bubalex.test.repositories.CarRepository;
 import com.bubalex.test.services.CarService;
@@ -37,7 +38,8 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void removeCar(UUID id) {
-        CarEntity persistedCar = carRepository.getById(id);
+        CarEntity persistedCar = carRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Can't find user with such id"));
         persistedCar.setDeleted(true);
         carRepository.save(persistedCar);
     }
